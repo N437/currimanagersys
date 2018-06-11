@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.resourceMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.resource" >
+    <id column="resourceId" property="resourceid" jdbcType="VARCHAR" />
+    <result column="courseId" property="courseid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="resourceUrl" property="resourceurl" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="test1" property="test1" jdbcType="VARCHAR" />
+    <result column="test2" property="test2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    resourceId, courseId, name, resourceUrl, createTime, test1, test2
+  </sql>
+  <select id="select" parameterType="com.winter.model.resource" resultType="com.winter.model.resource">
+    select <include refid="Base_Column_List" />
+    from resource
+    <where>
+      <if test="resourceid != null" >
+        and resourceid = #{resourceid,jdbcType=VARCHAR}
+      </if>
+      <if test="courseid != null" >
+        and courseid = #{courseid,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="resourceurl != null" >
+        and resourceurl = #{resourceurl,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from resource
+  </select>
+  <select id="selectAll" resultType="com.winter.model.resource">
+    select *
+    from resource
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from resource
+    where resourceId = #{resourceid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from resource
+    where resourceId = #{resourceid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.resource" >
+    insert into resource (resourceId, courseId, name, 
+      resourceUrl, createTime, test1, 
+      test2)
+    values (#{resourceid,jdbcType=VARCHAR}, #{courseid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{resourceurl,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{test1,jdbcType=VARCHAR}, 
+      #{test2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.resource" >
+    insert into resource
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="resourceid != null" >
+        resourceId,
+      </if>
+      <if test="courseid != null" >
+        courseId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="resourceurl != null" >
+        resourceUrl,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="test1 != null" >
+        test1,
+      </if>
+      <if test="test2 != null" >
+        test2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="resourceid != null" >
+        #{resourceid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceurl != null" >
+        #{resourceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="test1 != null" >
+        #{test1,jdbcType=VARCHAR},
+      </if>
+      <if test="test2 != null" >
+        #{test2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.resource" >
+    update resource
+    <set >
+      <if test="courseid != null" >
+        courseId = #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="resourceurl != null" >
+        resourceUrl = #{resourceurl,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="test1 != null" >
+        test1 = #{test1,jdbcType=VARCHAR},
+      </if>
+      <if test="test2 != null" >
+        test2 = #{test2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where resourceId = #{resourceid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.resource" >
+    update resource
+    set courseId = #{courseid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      resourceUrl = #{resourceurl,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      test1 = #{test1,jdbcType=VARCHAR},
+      test2 = #{test2,jdbcType=VARCHAR}
+    where resourceId = #{resourceid,jdbcType=VARCHAR}
+  </update>
+</mapper>

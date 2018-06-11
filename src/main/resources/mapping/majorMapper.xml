@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.majorMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.major" >
+    <id column="majorId" property="majorid" jdbcType="VARCHAR" />
+    <result column="majorName" property="majorname" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    majorId, majorName, createTime
+  </sql>
+  <select id="select" parameterType="com.winter.model.major" resultType="com.winter.model.major">
+    select <include refid="Base_Column_List" />
+    from major
+    <where>
+      <if test="majorid != null" >
+        and majorid = #{majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="majorname != null" >
+        and majorname = #{majorname,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from major
+  </select>
+  <select id="selectAll" resultType="com.winter.model.major">
+    select *
+    from major
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from major
+    where majorId = #{majorid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from major
+    where majorId = #{majorid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.major" >
+    insert into major (majorId, majorName, createTime
+      )
+    values (#{majorid,jdbcType=VARCHAR}, #{majorname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.major" >
+    insert into major
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="majorid != null" >
+        majorId,
+      </if>
+      <if test="majorname != null" >
+        majorName,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="majorid != null" >
+        #{majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="majorname != null" >
+        #{majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.major" >
+    update major
+    <set >
+      <if test="majorname != null" >
+        majorName = #{majorname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where majorId = #{majorid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.major" >
+    update major
+    set majorName = #{majorname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where majorId = #{majorid,jdbcType=VARCHAR}
+  </update>
+</mapper>

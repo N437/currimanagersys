@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.semesterMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.semester" >
+    <id column="semesterId" property="semesterid" jdbcType="VARCHAR" />
+    <result column="semesterName" property="semestername" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    semesterId, semesterName
+  </sql>
+  <select id="select" parameterType="com.winter.model.semester" resultType="com.winter.model.semester">
+    select <include refid="Base_Column_List" />
+    from semester
+    <where>
+      <if test="semesterid != null" >
+        and semesterid = #{semesterid,jdbcType=VARCHAR},
+      </if>
+      <if test="semestername != null" >
+        and semestername = #{semestername,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from semester
+  </select>
+  <select id="selectAll" resultType="com.winter.model.semester">
+    select *
+    from semester
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from semester
+    where semesterId = #{semesterid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from semester
+    where semesterId = #{semesterid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.semester" >
+    insert into semester (semesterId, semesterName)
+    values (#{semesterid,jdbcType=VARCHAR}, #{semestername,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.semester" >
+    insert into semester
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="semesterid != null" >
+        semesterId,
+      </if>
+      <if test="semestername != null" >
+        semesterName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="semesterid != null" >
+        #{semesterid,jdbcType=VARCHAR},
+      </if>
+      <if test="semestername != null" >
+        #{semestername,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.semester" >
+    update semester
+    <set >
+      <if test="semestername != null" >
+        semesterName = #{semestername,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where semesterId = #{semesterid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.semester" >
+    update semester
+    set semesterName = #{semestername,jdbcType=VARCHAR}
+    where semesterId = #{semesterid,jdbcType=VARCHAR}
+  </update>
+</mapper>

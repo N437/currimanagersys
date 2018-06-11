@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.course_categoryMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.course_category" >
+    <id column="courseCategoryId" property="coursecategoryid" jdbcType="VARCHAR" />
+    <result column="courseCategoryName" property="coursecategoryname" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    courseCategoryId, courseCategoryName, createTime
+  </sql>
+  <select id="select" parameterType="com.winter.model.course_category" resultType="com.winter.model.course_category">
+    select <include refid="Base_Column_List" />
+    from course_category
+    <where>
+      <if test="coursecategoryname != null" >
+        and coursecategoryname = #{coursecategoryname,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from course_category
+  </select>
+  <select id="selectAll" resultType="com.winter.model.course_category">
+    select *
+    from course_category
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_category
+    where courseCategoryId = #{coursecategoryid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course_category
+    where courseCategoryId = #{coursecategoryid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.course_category" >
+    insert into course_category (courseCategoryId, courseCategoryName, 
+      createTime)
+    values (#{coursecategoryid,jdbcType=VARCHAR}, #{coursecategoryname,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.course_category" >
+    insert into course_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coursecategoryid != null" >
+        courseCategoryId,
+      </if>
+      <if test="coursecategoryname != null" >
+        courseCategoryName,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coursecategoryid != null" >
+        #{coursecategoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecategoryname != null" >
+        #{coursecategoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.course_category" >
+    update course_category
+    <set >
+      <if test="coursecategoryname != null" >
+        courseCategoryName = #{coursecategoryname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where courseCategoryId = #{coursecategoryid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.course_category" >
+    update course_category
+    set courseCategoryName = #{coursecategoryname,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where courseCategoryId = #{coursecategoryid,jdbcType=VARCHAR}
+  </update>
+</mapper>

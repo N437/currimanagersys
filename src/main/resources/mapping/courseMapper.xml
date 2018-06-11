@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.courseMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.course" >
+    <id column="courseId" property="courseid" jdbcType="VARCHAR" />
+    <result column="courseNum" property="coursenum" jdbcType="CHAR" />
+    <result column="courseName" property="coursename" jdbcType="VARCHAR" />
+    <result column="enName" property="enname" jdbcType="VARCHAR" />
+    <result column="coursecategoryId" property="coursecategoryid" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="TINYINT" />
+    <result column="cHour" property="chour" jdbcType="TINYINT" />
+    <result column="lHour" property="lhour" jdbcType="TINYINT" />
+    <result column="tcHour" property="tchour" jdbcType="TINYINT" />
+    <result column="tlHour" property="tlhour" jdbcType="SMALLINT" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="test1" property="test1" jdbcType="VARCHAR" />
+    <result column="test2" property="test2" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    courseId, courseNum, courseName, enName, coursecategoryId, score, cHour, lHour, tcHour, 
+    tlHour, createTime, test1, test2
+  </sql>
+  <select id="select" parameterType="com.winter.model.course" resultType="com.winter.model.course">
+    select <include refid="Base_Column_List" />
+    from course
+    <where>
+      <if test="coursenum != null" >
+        and coursenum = #{coursenum,jdbcType=CHAR}
+      </if>
+	  <if test="coursecategoryid != null" >
+        and coursecategoryid = #{coursecategoryid,jdbcType=VARCHAR}
+      </if>
+      <if test="coursename != null" >
+        and coursename = #{coursename,jdbcType=VARCHAR}
+      </if>
+      <if test="enname != null" >
+        and enname = #{enname,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from course
+  </select>
+  <select id="selectAll" resultType="com.winter.model.course">
+    select *
+    from course
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course
+    where courseId = #{courseid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course
+    where courseId = #{courseid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.course" >
+    insert into course (courseId, courseNum, courseName, 
+      enName, coursecategoryId, score, 
+      cHour, lHour, tcHour, 
+      tlHour, createTime, test1, 
+      test2)
+    values (#{courseid,jdbcType=VARCHAR}, #{coursenum,jdbcType=CHAR}, #{coursename,jdbcType=VARCHAR}, 
+      #{enname,jdbcType=VARCHAR}, #{coursecategoryid,jdbcType=VARCHAR}, #{score,jdbcType=TINYINT}, 
+      #{chour,jdbcType=TINYINT}, #{lhour,jdbcType=TINYINT}, #{tchour,jdbcType=TINYINT}, 
+      #{tlhour,jdbcType=SMALLINT}, #{createtime,jdbcType=TIMESTAMP}, #{test1,jdbcType=VARCHAR}, 
+      #{test2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.course" >
+    insert into course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courseid != null" >
+        courseId,
+      </if>
+      <if test="coursenum != null" >
+        courseNum,
+      </if>
+      <if test="coursename != null" >
+        courseName,
+      </if>
+      <if test="enname != null" >
+        enName,
+      </if>
+      <if test="coursecategoryid != null" >
+        coursecategoryId,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="chour != null" >
+        cHour,
+      </if>
+      <if test="lhour != null" >
+        lHour,
+      </if>
+      <if test="tchour != null" >
+        tcHour,
+      </if>
+      <if test="tlhour != null" >
+        tlHour,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="test1 != null" >
+        test1,
+      </if>
+      <if test="test2 != null" >
+        test2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courseid != null" >
+        #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="coursenum != null" >
+        #{coursenum,jdbcType=CHAR},
+      </if>
+      <if test="coursename != null" >
+        #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="enname != null" >
+        #{enname,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecategoryid != null" >
+        #{coursecategoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=TINYINT},
+      </if>
+      <if test="chour != null" >
+        #{chour,jdbcType=TINYINT},
+      </if>
+      <if test="lhour != null" >
+        #{lhour,jdbcType=TINYINT},
+      </if>
+      <if test="tchour != null" >
+        #{tchour,jdbcType=TINYINT},
+      </if>
+      <if test="tlhour != null" >
+        #{tlhour,jdbcType=SMALLINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="test1 != null" >
+        #{test1,jdbcType=VARCHAR},
+      </if>
+      <if test="test2 != null" >
+        #{test2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.course" >
+    update course
+    <set >
+      <if test="coursenum != null" >
+        courseNum = #{coursenum,jdbcType=CHAR},
+      </if>
+      <if test="coursename != null" >
+        courseName = #{coursename,jdbcType=VARCHAR},
+      </if>
+      <if test="enname != null" >
+        enName = #{enname,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecategoryid != null" >
+        coursecategoryId = #{coursecategoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=TINYINT},
+      </if>
+      <if test="chour != null" >
+        cHour = #{chour,jdbcType=TINYINT},
+      </if>
+      <if test="lhour != null" >
+        lHour = #{lhour,jdbcType=TINYINT},
+      </if>
+      <if test="tchour != null" >
+        tcHour = #{tchour,jdbcType=TINYINT},
+      </if>
+      <if test="tlhour != null" >
+        tlHour = #{tlhour,jdbcType=SMALLINT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="test1 != null" >
+        test1 = #{test1,jdbcType=VARCHAR},
+      </if>
+      <if test="test2 != null" >
+        test2 = #{test2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where courseId = #{courseid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.course" >
+    update course
+    set courseNum = #{coursenum,jdbcType=CHAR},
+      courseName = #{coursename,jdbcType=VARCHAR},
+      enName = #{enname,jdbcType=VARCHAR},
+      coursecategoryId = #{coursecategoryid,jdbcType=VARCHAR},
+      score = #{score,jdbcType=TINYINT},
+      cHour = #{chour,jdbcType=TINYINT},
+      lHour = #{lhour,jdbcType=TINYINT},
+      tcHour = #{tchour,jdbcType=TINYINT},
+      tlHour = #{tlhour,jdbcType=SMALLINT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      test1 = #{test1,jdbcType=VARCHAR},
+      test2 = #{test2,jdbcType=VARCHAR}
+    where courseId = #{courseid,jdbcType=VARCHAR}
+  </update>
+</mapper>

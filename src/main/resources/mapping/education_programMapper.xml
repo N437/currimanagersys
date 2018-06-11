@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.education_programMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.education_program" >
+    <id column="educationProgramId" property="educationprogramid" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="objective" property="objective" jdbcType="VARCHAR" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="TINYINT" />
+    <result column="degree" property="degree" jdbcType="VARCHAR" />
+    <result column="minCredit" property="mincredit" jdbcType="TINYINT" />
+    <result column="publishYear" property="publishyear" jdbcType="SMALLINT" />
+    <result column="majorId" property="majorid" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    educationProgramId, name, objective, specification, duration, degree, minCredit, 
+    publishYear, majorId, createTime
+  </sql>
+  <select id="select" parameterType="com.winter.model.education_program" resultType="com.winter.model.education_program">
+    select <include refid="Base_Column_List" />
+    from education_program
+    <where>
+      <if test="educationprogramid != null" >
+        and educationprogramid = #{educationprogramid,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="objective != null" >
+        and objective = #{objective,jdbcType=VARCHAR}
+      </if>
+      <if test="specification != null" >
+        and specification = #{specification,jdbcType=VARCHAR}
+      </if>
+      <if test="duration != null" >
+        and duration = #{duration,jdbcType=TINYINT}
+      </if>
+      <if test="degree != null" >
+        and degree = #{degree,jdbcType=VARCHAR}
+      </if>
+      <if test="mincredit != null" >
+        and mincredit = #{mincredit,jdbcType=INTEGER}
+      </if>
+      <if test="publishyear != null" >
+        and publishyear = #{publishyear,jdbcType=SMALLINT}
+      </if>
+      <if test="majorid != null" >
+        and majorid = #{majorid,jdbcType=VARCHAR}
+      </if>
+      <if test="createtime != null" >
+        and createtime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from education_program
+  </select>
+  <select id="selectAll" resultType="com.winter.model.education_program">
+    select *
+    from education_program
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from education_program
+    where educationProgramId = #{educationprogramid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from education_program
+    where educationProgramId = #{educationprogramid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.education_program" >
+    insert into education_program (educationProgramId, name, objective, 
+      specification, duration, degree, 
+      minCredit, publishYear, majorId, 
+      createTime)
+    values (#{educationprogramid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{objective,jdbcType=VARCHAR}, 
+      #{specification,jdbcType=VARCHAR}, #{duration,jdbcType=TINYINT}, #{degree,jdbcType=VARCHAR}, 
+      #{mincredit,jdbcType=INTEGER}, #{publishyear,jdbcType=SMALLINT}, #{majorid,jdbcType=VARCHAR},
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.education_program" >
+    insert into education_program
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="educationprogramid != null" >
+        educationProgramId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="objective != null" >
+        objective,
+      </if>
+      <if test="specification != null" >
+        specification,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="degree != null" >
+        degree,
+      </if>
+      <if test="mincredit != null" >
+        minCredit,
+      </if>
+      <if test="publishyear != null" >
+        publishYear,
+      </if>
+      <if test="majorid != null" >
+        majorId,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="educationprogramid != null" >
+        #{educationprogramid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="objective != null" >
+        #{objective,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=TINYINT},
+      </if>
+      <if test="degree != null" >
+        #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="mincredit != null" >
+        #{mincredit,jdbcType=INTEGER},
+      </if>
+      <if test="publishyear != null" >
+        #{publishyear,jdbcType=SMALLINT},
+      </if>
+      <if test="majorid != null" >
+        #{majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.education_program" >
+    update education_program
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="objective != null" >
+        objective = #{objective,jdbcType=VARCHAR},
+      </if>
+      <if test="specification != null" >
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=TINYINT},
+      </if>
+      <if test="degree != null" >
+        degree = #{degree,jdbcType=VARCHAR},
+      </if>
+      <if test="mincredit != null" >
+        minCredit = #{mincredit,jdbcType=INTEGER},
+      </if>
+      <if test="publishyear != null" >
+        publishYear = #{publishyear,jdbcType=SMALLINT},
+      </if>
+      <if test="majorid != null" >
+        majorId = #{majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where educationProgramId = #{educationprogramid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.education_program" >
+    update education_program
+    set name = #{name,jdbcType=VARCHAR},
+      objective = #{objective,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=TINYINT},
+      degree = #{degree,jdbcType=VARCHAR},
+      minCredit = #{mincredit,jdbcType=INTEGER},
+      publishYear = #{publishyear,jdbcType=SMALLINT},
+      majorId = #{majorid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where educationProgramId = #{educationprogramid,jdbcType=VARCHAR}
+  </update>
+</mapper>

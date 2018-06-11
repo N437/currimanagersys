@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.dictionary_typeMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.dictionary_type" >
+    <id column="dictypeId" property="dictypeid" jdbcType="VARCHAR" />
+    <result column="dictypeName" property="dictypename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dictypeId, dictypeName
+  </sql>
+  <select id="select" parameterType="com.winter.model.dictionary_type" resultType="com.winter.model.dictionary_type">
+    select <include refid="Base_Column_List" />
+    from dictionary_type
+    <where>
+      <if test="dictypeName != null" >
+        and dictypeName = #{dictypeName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from dictionary_type
+  </select>
+  <select id="selectAll" resultType="com.winter.model.dictionary_type">
+    select *
+    from dictionary_type
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from dictionary_type
+    where dictypeId = #{dictypeid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from dictionary_type
+    where dictypeId = #{dictypeid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.dictionary_type" >
+    insert into dictionary_type (dictypeId, dictypeName)
+    values (#{dictypeid,jdbcType=VARCHAR}, #{dictypename,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.dictionary_type" >
+    insert into dictionary_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictypeid != null" >
+        dictypeId,
+      </if>
+      <if test="dictypename != null" >
+        dictypeName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictypeid != null" >
+        #{dictypeid,jdbcType=VARCHAR},
+      </if>
+      <if test="dictypename != null" >
+        #{dictypename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.dictionary_type" >
+    update dictionary_type
+    <set >
+      <if test="dictypename != null" >
+        dictypeName = #{dictypename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dictypeId = #{dictypeid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.dictionary_type" >
+    update dictionary_type
+    set dictypeName = #{dictypename,jdbcType=VARCHAR}
+    where dictypeId = #{dictypeid,jdbcType=VARCHAR}
+  </update>
+</mapper>

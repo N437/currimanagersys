@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.curriculumMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.curriculum" >
+    <id column="curriculumId" property="curriculumid" jdbcType="VARCHAR" />
+    <result column="educationProgramId" property="educationprogramid" jdbcType="VARCHAR" />
+    <result column="courseId" property="courseid" jdbcType="VARCHAR" />
+    <result column="courseCategoryId" property="coursecategoryid" jdbcType="VARCHAR" />
+    <result column="semester" property="semester" jdbcType="TINYINT" />
+    <result column="isDegree" property="isdegree" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    curriculumId, educationProgramId, courseId, courseCategoryId, semester, isDegree
+  </sql>
+  <select id="select" parameterType="com.winter.model.curriculum" resultType="com.winter.model.curriculum">
+    select <include refid="Base_Column_List" />
+    from curriculum
+    <where>
+      <if test="curriculumid != null" >
+        and curriculumid = #{curriculumid,jdbcType=VARCHAR}
+      </if>
+      <if test="educationprogramid != null" >
+        and educationprogramid = #{educationprogramid,jdbcType=VARCHAR}
+      </if>
+      <if test="courseid != null" >
+        and courseid = #{courseid,jdbcType=VARCHAR}
+      </if>
+      <if test="coursecategoryid != null" >
+        and coursecategoryid = #{coursecategoryid,jdbcType=VARCHAR}
+      </if>
+      <if test="semester != null" >
+        and semester = #{semester,jdbcType=TINYINT}
+      </if>
+      <if test="isdegree != null" >
+        and isdegree = #{isdegree,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from curriculum
+  </select>
+  <select id="selectAll" resultType="com.winter.model.curriculum">
+    select *
+    from curriculum
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from curriculum
+    where curriculumId = #{curriculumid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from curriculum
+    where curriculumId = #{curriculumid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.curriculum" >
+    insert into curriculum (curriculumId, educationProgramId, 
+      courseId, courseCategoryId, semester, 
+      isDegree)
+    values (#{curriculumid,jdbcType=VARCHAR}, #{educationprogramid,jdbcType=VARCHAR}, 
+      #{courseid,jdbcType=VARCHAR}, #{coursecategoryid,jdbcType=VARCHAR}, #{semester,jdbcType=TINYINT}, 
+      #{isdegree,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.curriculum" >
+    insert into curriculum
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="curriculumid != null" >
+        curriculumId,
+      </if>
+      <if test="educationprogramid != null" >
+        educationProgramId,
+      </if>
+      <if test="courseid != null" >
+        courseId,
+      </if>
+      <if test="coursecategoryid != null" >
+        courseCategoryId,
+      </if>
+      <if test="semester != null" >
+        semester,
+      </if>
+      <if test="isdegree != null" >
+        isDegree,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="curriculumid != null" >
+        #{curriculumid,jdbcType=VARCHAR},
+      </if>
+      <if test="educationprogramid != null" >
+        #{educationprogramid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecategoryid != null" >
+        #{coursecategoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="semester != null" >
+        #{semester,jdbcType=TINYINT},
+      </if>
+      <if test="isdegree != null" >
+        #{isdegree,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.curriculum" >
+    update curriculum
+    <set >
+      <if test="educationprogramid != null" >
+        educationProgramId = #{educationprogramid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        courseId = #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="coursecategoryid != null" >
+        courseCategoryId = #{coursecategoryid,jdbcType=VARCHAR},
+      </if>
+      <if test="semester != null" >
+        semester = #{semester,jdbcType=TINYINT},
+      </if>
+      <if test="isdegree != null" >
+        isDegree = #{isdegree,jdbcType=BIT},
+      </if>
+    </set>
+    where curriculumId = #{curriculumid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.curriculum" >
+    update curriculum
+    set educationProgramId = #{educationprogramid,jdbcType=VARCHAR},
+      courseId = #{courseid,jdbcType=VARCHAR},
+      courseCategoryId = #{coursecategoryid,jdbcType=VARCHAR},
+      semester = #{semester,jdbcType=TINYINT},
+      isDegree = #{isdegree,jdbcType=BIT}
+    where curriculumId = #{curriculumid,jdbcType=VARCHAR}
+  </update>
+</mapper>

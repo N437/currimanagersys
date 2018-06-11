@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.class_studentMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.class_student" >
+    <id column="classStudentId" property="classstudentid" jdbcType="VARCHAR" />
+    <result column="courseClassId" property="courseclassid" jdbcType="VARCHAR" />
+    <result column="studentId" property="studentid" jdbcType="VARCHAR" />
+    <result column="gpaScore" property="gpascore" jdbcType="TINYINT" />
+    <result column="paperScore" property="paperscore" jdbcType="TINYINT" />
+    <result column="practiceScore" property="practicescore" jdbcType="TINYINT" />
+    <result column="score" property="score" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    classStudentId, courseClassId, studentId, gpaScore, paperScore, practiceScore, score
+  </sql>
+  <select id="select" parameterType="com.winter.model.class_student" resultType="com.winter.model.class_student">
+    select <include refid="Base_Column_List" />
+    from class_student
+    <where>
+      <if test="classstudentid != null" >
+        and classstudentid = #{classstudentid,jdbcType=VARCHAR}
+      </if>
+      <if test="courseclassid != null" >
+        and courseclassid = #{courseclassid,jdbcType=VARCHAR}
+      </if>
+      <if test="studentid != null" >
+        and studentid = #{studentid,jdbcType=VARCHAR}
+      </if>
+      <if test="gpascore != null" >
+        and gpascore = #{gpascore,jdbcType=TINYINT}
+      </if>
+      <if test="paperscore != null" >
+        and paperscore = #{paperscore,jdbcType=TINYINT}
+      </if>
+      <if test="practicescore != null" >
+        and practicescore = #{practicescore,jdbcType=TINYINT}
+      </if>
+      <if test="gpascore != null" >
+        and score = #{score,jdbcType=TINYINT}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from class_student
+  </select>
+  <select id="selectAll" resultType="com.winter.model.class_student">
+    select *
+    from class_student
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from class_student
+    where classStudentId = #{classstudentid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from class_student
+    where classStudentId = #{classstudentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.class_student" >
+    insert into class_student (classStudentId, courseClassId, studentId, 
+      gpaScore, paperScore, practiceScore, 
+      score)
+    values (#{classstudentid,jdbcType=VARCHAR}, #{courseclassid,jdbcType=VARCHAR}, #{studentid,jdbcType=VARCHAR}, 
+      #{gpascore,jdbcType=TINYINT}, #{paperscore,jdbcType=TINYINT}, #{practicescore,jdbcType=TINYINT}, 
+      #{score,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.class_student" >
+    insert into class_student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classstudentid != null" >
+        classStudentId,
+      </if>
+      <if test="courseclassid != null" >
+        courseClassId,
+      </if>
+      <if test="studentid != null" >
+        studentId,
+      </if>
+      <if test="gpascore != null" >
+        gpaScore,
+      </if>
+      <if test="paperscore != null" >
+        paperScore,
+      </if>
+      <if test="practicescore != null" >
+        practiceScore,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classstudentid != null" >
+        #{classstudentid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseclassid != null" >
+        #{courseclassid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null" >
+        #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="gpascore != null" >
+        #{gpascore,jdbcType=TINYINT},
+      </if>
+      <if test="paperscore != null" >
+        #{paperscore,jdbcType=TINYINT},
+      </if>
+      <if test="practicescore != null" >
+        #{practicescore,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.class_student" >
+    update class_student
+    <set >
+      <if test="courseclassid != null" >
+        courseClassId = #{courseclassid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null" >
+        studentId = #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="gpascore != null" >
+        gpaScore = #{gpascore,jdbcType=TINYINT},
+      </if>
+      <if test="paperscore != null" >
+        paperScore = #{paperscore,jdbcType=TINYINT},
+      </if>
+      <if test="practicescore != null" >
+        practiceScore = #{practicescore,jdbcType=TINYINT},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=TINYINT},
+      </if>
+    </set>
+    where classStudentId = #{classstudentid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.class_student" >
+    update class_student
+    set courseClassId = #{courseclassid,jdbcType=VARCHAR},
+      studentId = #{studentid,jdbcType=VARCHAR},
+      gpaScore = #{gpascore,jdbcType=TINYINT},
+      paperScore = #{paperscore,jdbcType=TINYINT},
+      practiceScore = #{practicescore,jdbcType=TINYINT},
+      score = #{score,jdbcType=TINYINT}
+    where classStudentId = #{classstudentid,jdbcType=VARCHAR}
+  </update>
+</mapper>

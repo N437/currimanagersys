@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.userinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.userinfo" >
+    <id column="userInfoId" property="userinfoid" jdbcType="VARCHAR" />
+    <result column="userRole" property="userrole" jdbcType="VARCHAR" />
+    <result column="userID" property="userid" jdbcType="VARCHAR" />
+    <result column="userPwd" property="userpwd" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    userInfoId, userRole, userID, userPwd, createTime
+  </sql>
+  <select id="select" parameterType="com.winter.model.userinfo" resultType="com.winter.model.userinfo">
+    select <include refid="Base_Column_List" />
+    from userinfo
+    <where>
+      <if test="userInfoId != null" >
+        userInfoId = #{userInfoId,jdbcType=VARCHAR}
+      </if>
+      <if test="userRole != null" >
+        and userRole = #{userRole,jdbcType=VARCHAR}
+      </if>
+      <if test="userID != null" >
+        and userID = #{userRole,jdbcType=VARCHAR}
+      </if>
+      <if test="userPwd != null" >
+        and userPwd = #{userPwd,jdbcType=VARCHAR}
+      </if>
+      <if test="value != null" >
+        and createTime = #{createtime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from userinfo
+    where userInfoId = #{userinfoid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultType="com.winter.model.userinfo">
+    select *
+    from userinfo
+  </select>
+  <select id="selectByUserid" resultType="com.winter.model.userinfo" parameterType="java.lang.String">
+    select * from userinfo where userid = #{userid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from userinfo
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from userinfo
+    where userInfoId = #{userinfoid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.userinfo" >
+    insert into userinfo (userInfoId, userRole, userID, 
+      userPwd, createTime)
+    values (#{userinfoid,jdbcType=VARCHAR}, #{userrole,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{userpwd,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.userinfo" >
+    insert into userinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userinfoid != null" >
+        userInfoId,
+      </if>
+      <if test="userrole != null" >
+        userRole,
+      </if>
+      <if test="userid != null" >
+        userID,
+      </if>
+      <if test="userpwd != null" >
+        userPwd,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userinfoid != null" >
+        #{userinfoid,jdbcType=VARCHAR},
+      </if>
+      <if test="userrole != null" >
+        #{userrole,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null" >
+        #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.userinfo" >
+    update userinfo
+    <set >
+      <if test="userrole != null" >
+        userRole = #{userrole,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        userID = #{userid,jdbcType=VARCHAR},
+      </if>
+      <if test="userpwd != null" >
+        userPwd = #{userpwd,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userInfoId = #{userinfoid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.userinfo" >
+    update userinfo
+    set userRole = #{userrole,jdbcType=VARCHAR},
+      userID = #{userid,jdbcType=VARCHAR},
+      userPwd = #{userpwd,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where userInfoId = #{userinfoid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.teacherMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.teacher" >
+    <id column="teacherId" property="teacherid" jdbcType="VARCHAR" />
+    <result column="teacherTcode" property="teachertcode" jdbcType="CHAR" />
+    <result column="teacherName" property="teachername" jdbcType="VARCHAR" />
+    <result column="teacherGender" property="teachergender" jdbcType="CHAR" />
+    <result column="teacherDegree" property="teacherdegree" jdbcType="VARCHAR" />
+    <result column="teacherTitle" property="teachertitle" jdbcType="VARCHAR" />
+    <result column="teacherIntro" property="teacherintro" jdbcType="VARCHAR" />
+    <result column="teacherPhoto" property="teacherphoto" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    teacherId, teacherTcode, teacherName, teacherGender, teacherDegree, teacherTitle, 
+    teacherIntro, teacherPhoto
+  </sql>
+  <select id="select" parameterType="com.winter.model.teacher" resultType="com.winter.model.teacher">
+    select <include refid="Base_Column_List" />
+    from teacher
+    <where>
+      <if test="teacherid != null" >
+        and teacherid = #{teacherid,jdbcType=VARCHAR}
+      </if>
+      <if test="teachertcode != null" >
+        and teachertcode = #{teachertcode,jdbcType=CHAR}
+      </if>
+      <if test="teachername != null" >
+        and teachername = #{teachername,jdbcType=VARCHAR}
+      </if>
+      <if test="teachergender != null" >
+        and teachergender = #{teachergender,jdbcType=CHAR}
+      </if>
+      <if test="teacherdegree != null" >
+        and teacherdegree = #{teacherdegree,jdbcType=VARCHAR}
+      </if>
+      <if test="teachertitle != null" >
+        and teachertitle = #{teachertitle,jdbcType=VARCHAR}
+      </if>
+      <if test="teacherintro != null" >
+        and teacherintro = #{teacherintro,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from teacher
+  </select>
+  <select id="selectAll" resultType="com.winter.model.teacher">
+    select *
+    from teacher
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from teacher
+    where teacherId = #{teacherid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from teacher
+    where teacherId = #{teacherid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.teacher" >
+    insert into teacher (teacherId, teacherTcode, teacherName, 
+      teacherGender, teacherDegree, teacherTitle, 
+      teacherIntro, teacherPhoto)
+    values (#{teacherid,jdbcType=VARCHAR}, #{teachertcode,jdbcType=CHAR}, #{teachername,jdbcType=VARCHAR}, 
+      #{teachergender,jdbcType=CHAR}, #{teacherdegree,jdbcType=VARCHAR}, #{teachertitle,jdbcType=VARCHAR}, 
+      #{teacherintro,jdbcType=VARCHAR}, #{teacherphoto,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.teacher" >
+    insert into teacher
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teacherid != null" >
+        teacherId,
+      </if>
+      <if test="teachertcode != null" >
+        teacherTcode,
+      </if>
+      <if test="teachername != null" >
+        teacherName,
+      </if>
+      <if test="teachergender != null" >
+        teacherGender,
+      </if>
+      <if test="teacherdegree != null" >
+        teacherDegree,
+      </if>
+      <if test="teachertitle != null" >
+        teacherTitle,
+      </if>
+      <if test="teacherintro != null" >
+        teacherIntro,
+      </if>
+      <if test="teacherphoto != null" >
+        teacherPhoto,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teacherid != null" >
+        #{teacherid,jdbcType=VARCHAR},
+      </if>
+      <if test="teachertcode != null" >
+        #{teachertcode,jdbcType=CHAR},
+      </if>
+      <if test="teachername != null" >
+        #{teachername,jdbcType=VARCHAR},
+      </if>
+      <if test="teachergender != null" >
+        #{teachergender,jdbcType=CHAR},
+      </if>
+      <if test="teacherdegree != null" >
+        #{teacherdegree,jdbcType=VARCHAR},
+      </if>
+      <if test="teachertitle != null" >
+        #{teachertitle,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherintro != null" >
+        #{teacherintro,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherphoto != null" >
+        #{teacherphoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.teacher" >
+    update teacher
+    <set >
+      <if test="teachertcode != null" >
+        teacherTcode = #{teachertcode,jdbcType=CHAR},
+      </if>
+      <if test="teachername != null" >
+        teacherName = #{teachername,jdbcType=VARCHAR},
+      </if>
+      <if test="teachergender != null" >
+        teacherGender = #{teachergender,jdbcType=CHAR},
+      </if>
+      <if test="teacherdegree != null" >
+        teacherDegree = #{teacherdegree,jdbcType=VARCHAR},
+      </if>
+      <if test="teachertitle != null" >
+        teacherTitle = #{teachertitle,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherintro != null" >
+        teacherIntro = #{teacherintro,jdbcType=VARCHAR},
+      </if>
+      <if test="teacherphoto != null" >
+        teacherPhoto = #{teacherphoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where teacherId = #{teacherid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.teacher" >
+    update teacher
+    set teacherTcode = #{teachertcode,jdbcType=CHAR},
+      teacherName = #{teachername,jdbcType=VARCHAR},
+      teacherGender = #{teachergender,jdbcType=CHAR},
+      teacherDegree = #{teacherdegree,jdbcType=VARCHAR},
+      teacherTitle = #{teachertitle,jdbcType=VARCHAR},
+      teacherIntro = #{teacherintro,jdbcType=VARCHAR},
+      teacherPhoto = #{teacherphoto,jdbcType=VARCHAR}
+    where teacherId = #{teacherid,jdbcType=VARCHAR}
+  </update>
+</mapper>

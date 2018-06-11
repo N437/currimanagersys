@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.course_classMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.course_class" >
+    <id column="courseClassId" property="courseclassid" jdbcType="VARCHAR" />
+    <result column="semesterId" property="semesterid" jdbcType="VARCHAR" />
+    <result column="courseId" property="courseid" jdbcType="VARCHAR" />
+    <result column="maxClassSize" property="maxclasssize" jdbcType="INTEGER" />
+    <result column="teacherId" property="teacherid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    courseClassId, semesterId, courseId, maxClassSize, teacherId
+  </sql>
+  <select id="select" parameterType="com.winter.model.course_class" resultType="com.winter.model.course_class">
+    select <include refid="Base_Column_List" />
+    from course_class
+    <where>
+      <if test="courseclassid != null" >
+        and courseclassid = #{courseclassid,jdbcType=VARCHAR}
+      </if>
+      <if test="semesterid != null" >
+        and semesterid = #{semesterid,jdbcType=VARCHAR}
+      </if>
+      <if test="courseid != null" >
+        and courseid = #{courseid,jdbcType=VARCHAR}
+      </if>
+      <if test="maxclasssize != null" >
+        and maxclasssize = #{maxclasssize,jdbcType=INTEGER}
+      </if>
+      <if test="teacherid != null" >
+        and teacherid = #{teacherid,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from course_class
+  </select>
+  <select id="selectAll" resultType="com.winter.model.course_class">
+    select *
+    from course_class
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_class
+    where courseClassId = #{courseclassid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course_class
+    where courseClassId = #{courseclassid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.course_class" >
+    insert into course_class (courseClassId, semesterId, courseId, 
+      maxClassSize, teacherId)
+    values (#{courseclassid,jdbcType=VARCHAR}, #{semesterid,jdbcType=VARCHAR}, #{courseid,jdbcType=VARCHAR}, 
+      #{maxclasssize,jdbcType=INTEGER}, #{teacherid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.course_class" >
+    insert into course_class
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courseclassid != null" >
+        courseClassId,
+      </if>
+      <if test="semesterid != null" >
+        semesterId,
+      </if>
+      <if test="courseid != null" >
+        courseId,
+      </if>
+      <if test="maxclasssize != null" >
+        maxClassSize,
+      </if>
+      <if test="teacherid != null" >
+        teacherId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courseclassid != null" >
+        #{courseclassid,jdbcType=VARCHAR},
+      </if>
+      <if test="semesterid != null" >
+        #{semesterid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="maxclasssize != null" >
+        #{maxclasssize,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        #{teacherid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.course_class" >
+    update course_class
+    <set >
+      <if test="semesterid != null" >
+        semesterId = #{semesterid,jdbcType=VARCHAR},
+      </if>
+      <if test="courseid != null" >
+        courseId = #{courseid,jdbcType=VARCHAR},
+      </if>
+      <if test="maxclasssize != null" >
+        maxClassSize = #{maxclasssize,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        teacherId = #{teacherid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where courseClassId = #{courseclassid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.course_class" >
+    update course_class
+    set semesterId = #{semesterid,jdbcType=VARCHAR},
+      courseId = #{courseid,jdbcType=VARCHAR},
+      maxClassSize = #{maxclasssize,jdbcType=INTEGER},
+      teacherId = #{teacherid,jdbcType=VARCHAR}
+    where courseClassId = #{courseclassid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.studentMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.student" >
+    <id column="studentId" property="studentid" jdbcType="VARCHAR" />
+    <result column="studentScode" property="studentscode" jdbcType="CHAR" />
+    <result column="studentName" property="studentname" jdbcType="VARCHAR" />
+    <result column="studentGender" property="studentgender" jdbcType="CHAR" />
+    <result column="studentPhoto" property="studentphoto" jdbcType="VARCHAR" />
+    <result column="classId" property="classid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    studentId, studentScode, studentName, studentGender, studentPhoto, classId
+  </sql>
+  <select id="select" parameterType="com.winter.model.student" resultType="com.winter.model.student">
+    select <include refid="Base_Column_List" />
+    from student
+    <where>
+      <if test="studentid != null" >
+        and studentid = #{studentid,jdbcType=VARCHAR}
+      </if>
+      <if test="studentscode != null" >
+        and studentscode = #{studentscode,jdbcType=CHAR}
+      </if>
+      <if test="studentname != null" >
+        and studentname = #{studentname,jdbcType=VARCHAR}
+      </if>
+      <if test="studentgender != null" >
+        and studentgender = #{studentgender,jdbcType=CHAR}
+      </if>
+      <if test="studentphoto != null" >
+        and studentphoto = #{studentphoto,jdbcType=VARCHAR}
+      </if>
+      <if test="classid != null" >
+        and classid = #{classid,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from student
+  </select>
+  <select id="selectAll" resultType="com.winter.model.student">
+    select *
+    from student
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from student
+    where studentId = #{studentid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from student
+    where studentId = #{studentid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.student" >
+    insert into student (studentId, studentScode, studentName, 
+      studentGender, studentPhoto, classId
+      )
+    values (#{studentid,jdbcType=VARCHAR}, #{studentscode,jdbcType=CHAR}, #{studentname,jdbcType=VARCHAR}, 
+      #{studentgender,jdbcType=CHAR}, #{studentphoto,jdbcType=VARCHAR}, #{classid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.student" >
+    insert into student
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="studentid != null" >
+        studentId,
+      </if>
+      <if test="studentscode != null" >
+        studentScode,
+      </if>
+      <if test="studentname != null" >
+        studentName,
+      </if>
+      <if test="studentgender != null" >
+        studentGender,
+      </if>
+      <if test="studentphoto != null" >
+        studentPhoto,
+      </if>
+      <if test="classid != null" >
+        classId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="studentid != null" >
+        #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentscode != null" >
+        #{studentscode,jdbcType=CHAR},
+      </if>
+      <if test="studentname != null" >
+        #{studentname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentgender != null" >
+        #{studentgender,jdbcType=CHAR},
+      </if>
+      <if test="studentphoto != null" >
+        #{studentphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null" >
+        #{classid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.student" >
+    update student
+    <set >
+      <if test="studentscode != null" >
+        studentScode = #{studentscode,jdbcType=CHAR},
+      </if>
+      <if test="studentname != null" >
+        studentName = #{studentname,jdbcType=VARCHAR},
+      </if>
+      <if test="studentgender != null" >
+        studentGender = #{studentgender,jdbcType=CHAR},
+      </if>
+      <if test="studentphoto != null" >
+        studentPhoto = #{studentphoto,jdbcType=VARCHAR},
+      </if>
+      <if test="classid != null" >
+        classId = #{classid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where studentId = #{studentid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.student" >
+    update student
+    set studentScode = #{studentscode,jdbcType=CHAR},
+      studentName = #{studentname,jdbcType=VARCHAR},
+      studentGender = #{studentgender,jdbcType=CHAR},
+      studentPhoto = #{studentphoto,jdbcType=VARCHAR},
+      classId = #{classid,jdbcType=VARCHAR}
+    where studentId = #{studentid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winter.mapper.classesMapper" >
+  <resultMap id="BaseResultMap" type="com.winter.model.classes" >
+    <id column="classId" property="classid" jdbcType="VARCHAR" />
+    <result column="className" property="classname" jdbcType="VARCHAR" />
+    <result column="enrollYear" property="enrollyear" jdbcType="SMALLINT" />
+    <result column="majorId" property="majorid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    classId, className, enrollYear, majorId
+  </sql>
+  <select id="select" parameterType="com.winter.model.classes" resultType="com.winter.model.classes">
+    select <include refid="Base_Column_List" />
+    from classes
+    <where>
+      <if test="classid != null" >
+        and classid = #{classid,jdbcType=VARCHAR}
+      </if>
+      <if test="classname != null" >
+        and classname = #{classname,jdbcType=VARCHAR}
+      </if>
+      <if test="enrollyear != null" >
+        and enrollyear = #{enrollyear,jdbcType=SMALLINT}
+      </if>
+      <if test="majorid != null" >
+        and majorid = #{majorid,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(1) from classes
+  </select>
+  <select id="selectAll" resultType="com.winter.model.classes">
+    select *
+    from classes
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from classes
+    where classId = #{classid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from classes
+    where classId = #{classid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.winter.model.classes" >
+    insert into classes (classId, className, enrollYear, 
+      majorId)
+    values (#{classid,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR}, #{enrollyear,jdbcType=SMALLINT}, 
+      #{majorid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.winter.model.classes" >
+    insert into classes
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="classid != null" >
+        classId,
+      </if>
+      <if test="classname != null" >
+        className,
+      </if>
+      <if test="enrollyear != null" >
+        enrollYear,
+      </if>
+      <if test="majorid != null" >
+        majorId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="classid != null" >
+        #{classid,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null" >
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="enrollyear != null" >
+        #{enrollyear,jdbcType=SMALLINT},
+      </if>
+      <if test="majorid != null" >
+        #{majorid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.classes" >
+    update classes
+    <set >
+      <if test="classname != null" >
+        className = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="enrollyear != null" >
+        enrollYear = #{enrollyear,jdbcType=SMALLINT},
+      </if>
+      <if test="majorid != null" >
+        majorId = #{majorid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where classId = #{classid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.winter.model.classes" >
+    update classes
+    set className = #{classname,jdbcType=VARCHAR},
+      enrollYear = #{enrollyear,jdbcType=SMALLINT},
+      majorId = #{majorid,jdbcType=VARCHAR}
+    where classId = #{classid,jdbcType=VARCHAR}
+  </update>
+</mapper>
