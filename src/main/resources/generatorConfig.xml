@@ -45,5 +45,5 @@
         <table tableName="dictionary_type" domainObjectName="dictionary_type" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
 
 
-    <!--</context>-->
+    </context>
 </generatorConfiguration>
