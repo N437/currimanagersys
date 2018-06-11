@@ -127,7 +127,9 @@
                     layer.msg('密码错误', {icon: 5});
                 } else {
                     layer.alert("登录成功", {icon: 5});
-                    window.location.href = result;
+                    setTimeout(function () {
+                        window.location.href = result;
+                    },3000)
                 }
             }
         });
