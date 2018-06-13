@@ -10,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,5 +40,14 @@ public class IndexController {
             }
         }
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "exit")
+    public void exit(HttpSession session, HttpServletResponse response) throws IOException {
+        if (session.getAttribute(StringUtil.winUserSession)!=null){
+            session.removeAttribute(StringUtil.winUserSession);
+            response.sendRedirect("/login");
+        }
     }
 }

@@ -8,8 +8,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @MapperScan("com.winter.mapper")
-@ServletComponentScan("com.winter.controller")
-
+@ServletComponentScan
 public class Springboot2MybatisApplication {
     public static void main(String[] args) {
         SpringApplication.run(Springboot2MybatisApplication.class, args);

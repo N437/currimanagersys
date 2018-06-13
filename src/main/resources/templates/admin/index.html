@@ -26,7 +26,7 @@
 <body>
 <header class="navbar-wrapper">
     <div class="navbar navbar-fixed-top">
-        <div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">学生课程管理系统</a>
+        <div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/admin/index">学生课程管理系统</a>
             <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
             <nav class="nav navbar-nav">
                 <ul class="cl">
@@ -45,7 +45,9 @@
                         <ul class="dropDown-menu menu radius box-shadow">
                             <li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
                             <li><a href="#">切换账户</a></li>
-                            <li><a href="#">退出</a></li>
+                            <li><a href="javascript:void();" onclick="layer.confirm('确定退出吗？',function() {
+                              window.location.href='/admin/exit';
+                            })">退出</a></li>
                         </ul>
                     </li>
                     <li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
