@@ -25,6 +25,7 @@ public class IndexController {
 
     @RequestMapping(value = "index", method = RequestMethod.GET)
     public String index(Model model, HttpSession session) {
+        String result = "login";
         Object userinfoid = session.getAttribute(StringUtil.winUserSession);
 
         if (userinfoid != null) {
@@ -32,8 +33,9 @@ public class IndexController {
             if (user != null) {
                 roleinfo userRole = roleInfoService.selectByPrimaryKey(user.getUserrole());
                 model.addAttribute("userName", userRole.getRolename());
+                result = "admin/index";
             }
         }
-        return "admin/index";
+        return result;
     }
 }
