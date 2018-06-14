@@ -23,4 +23,9 @@ public class LoginController {
     public String login(Model model){
         return "login";
     }
+
+    @RequestMapping(value = "withoutlogin")
+    public String withOutLogin(){
+        return "withoutlogin";
+    }
 }

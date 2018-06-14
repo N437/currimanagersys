@@ -53,12 +53,6 @@
             </select>
         </div>
         <div class="layui-input-inline">
-            <select id="selectCourse" name="quiz2" class="select"
-                    style="width: 150px;height: 31px;">
-                <option value="">选择课程</option>
-            </select>
-        </div>
-        <div class="layui-input-inline">
             <button class="btn btn-primary radius" id="addDic" onclick="" name=""><i
                     class="Hui-iconfont">&#xe600;</i> 搜索
             </button>
@@ -219,9 +213,9 @@
     layui.use('table', function () {
         var table = layui.table;
         table.render({
-            id: 'educationprogramid'
+            id: 'curriculumid'
             , elem: '#test'
-            , url: '/admin/eduprogrameget'
+            , url: '/admin/getcurri'
             , request: {
                 pageName: 'curr' //页码的参数名称，默认：page
                 , limitName: 'nums' //每页数据量的参数名，默认：limit
@@ -236,14 +230,11 @@
             , cols: [[
                 /*<![CDATA[*/
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'name', title: '培养方案名称', sort: true}
-                , {field: 'majorname', title: '专业', sort: true}
-                , {field: 'objective', title: '培养目标', sort: true}
-                , {field: 'specification', title: '规格要求', sort: true}
-                , {field: 'duration', title: '标准学制', sort: true}
-                , {field: 'degree', title: '授予学位', sort: true}
-                , {field: 'mincredit', title: '毕业学分要求', sort: true}
-                , {field: 'publishyear', title: '制定年份', sort: true}
+                , {field: 'educationprogramname', title: '培养方案名称', sort: true}
+                , {field: 'coursename', title: '课程名', sort: true}
+                , {field: 'coursecategoryname', title: '课程类别', sort: true}
+                , {field: 'semester', title: '开课学期', sort: true}
+                , {field: 'degreeis', title: '学位课程', sort: true}
                 , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
                 /*]]>*/
             ]]
@@ -329,7 +320,6 @@
             },
         })
     }
-
 
     /*数据字典-编辑*/
     function system_data_edit(title, url, id, w, h) {

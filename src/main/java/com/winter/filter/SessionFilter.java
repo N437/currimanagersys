@@ -67,7 +67,7 @@ public class SessionFilter implements Filter {
 
                 }else{
                     //重定向到登录页(需要在static文件夹下建立此html文件)
-                    response.sendRedirect("/login");
+                    response.sendRedirect("/withoutlogin");
                 }
                 return;
             }

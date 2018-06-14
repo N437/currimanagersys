@@ -23,15 +23,15 @@
     <script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>班级管理</title>
+    <title>学生管理</title>
 
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
     <span class="c-gray en">&gt;</span>
-    专业管理
+    学院管理
     <span class="c-gray en">&gt;</span>
-    培养方案管理
+    学生管理
     <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
        href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
 </nav>
@@ -49,26 +49,37 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
 		<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-		<a href="javascript:;" onclick="adddata()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加培养方案</a>
+		<a href="javascript:;" onclick="adddata()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加班级</a>
+		<a href="javascript:;" onclick="addType()" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe600;</i> 添加专业</a>
 		</span>
     </div>
 
     <table class="layui-hide" id="test" lay-filter="demo"></table>
 </div>
-<form id="courseadd">
+<form id="courseadd" enctype="multipart/form-data">
     <div id="addData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content radius">
                 <div class="modal-header">
-                    <h3 class="modal-title">添加培养方案</h3>
+                    <h3 class="modal-title">注册学生</h3>
                     <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
                 </div>
                 <div class="modal-body">
                     <table class="table table-border table-bordered table-hover">
                         <tr>
-                            <td>培养方案名称</td>
+                            <td>学生姓名</td>
                             <td>
-                                <input type="text" id="name" name="name" class="input-text size-S"/>
+                                <input type="text" id="classname" name="classname" class="input-text size-S"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>性别</td>
+                            <td>
+                                <select id="studentname" th:name="studentname" class="select" name="studentname"
+                                        style="width: 150px;height: 31px;">
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -76,6 +87,7 @@
                             <td>
                                 <select id="majorid" th:name="majorid" class="select" name="selectType"
                                         style="width: 150px;height: 31px;">
+                                    <option>选择专业</option>
                                     <option th:each="typelist,listStart:${typeList}"
                                             th:value="${typelist.getMajorid()}"
                                             th:text="${typelist.getMajorname() }"></option>
@@ -83,39 +95,22 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>培养目标</td>
+                            <td>选择班级</td>
                             <td>
-                                <input type="text" id="objective" name="objective" class="input-text size-S"/>
+                                <select id="classid" th:name="classid" class="select" name="classid"
+                                        style="width: 150px;height: 31px;">
+                                    <option>选择班级</option>
+                                </select>
                             </td>
                         </tr>
                         <tr>
-                            <td>规格要求</td>
+                            <td>上传图片</td>
                             <td>
-                                <input type="text" id="specification" name="specification" class="input-text size-S"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>标准学制</td>
-                            <td>
-                                <input type="text" id="duration" name="duration" class="input-text size-S"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>授予学位</td>
-                            <td>
-                                <input type="text" id="degree" name="degree" class="input-text size-S"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>毕业学分要求</td>
-                            <td>
-                                <input type="text" id="mincredit" name="mincredit" class="input-text size-S"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>制定年份</td>
-                            <td>
-                                <input type="text" id="publishyear" name="publishyear" class="input-text size-S" />
+                                <span class="btn-upload form-group">
+                                  <input class="input-text upload-url radius" type="text" name="uploadfile" id="uploadfile" readonly><a
+                                                                        href="javascript:void();" class="btn btn-primary radius"><i class="iconfont">&#xf0020;</i> 浏览文件</a>
+                                  <input type="file" multiple name="file" class="input-file">
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -144,16 +139,15 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="addcourse">课程体系</a>
 </script>
 
 <script type="text/javascript" th:inline="javascript">
     layui.use('table', function () {
         var table = layui.table;
         table.render({
-            id: 'educationprogramid'
+            id: 'studentid'
             , elem: '#test'
-            , url: '/admin/eduprogrameget'
+            , url: '/admin/studentget'
             , request: {
                 pageName: 'curr' //页码的参数名称，默认：page
                 , limitName: 'nums' //每页数据量的参数名，默认：limit
@@ -168,12 +162,12 @@
             , cols: [[
                 /*<![CDATA[*/
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'name', title: '培养方案名称', sort: true}
+                , {field: 'studentscode', title: '学号', sort: true}
+                , {field: 'studentname', title: '学生姓名', sort: true}
+                , {field: 'studentgender', title: '性别', sort: true}
                 , {field: 'majorname', title: '专业', sort: true}
-                , {field: 'duration', title: '标准学制', sort: true}
-                , {field: 'degree', title: '授予学位', sort: true}
-                , {field: 'mincredit', title: '毕业学分要求', sort: true}
-                , {field: 'publishyear', title: '制定年份', sort: true}
+                , {field: 'classname', title: '班级名称', sort: true}
+
                 , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
                 /*]]>*/
             ]]
@@ -186,7 +180,7 @@
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                layer.msg('ID：' + data.educationprogramid + ' 的查看操作');
+                layer.msg('ID：' + data.studentid + ' 的查看操作');
             } else if (obj.event === 'del') {
                 layer.confirm('真的删除行么', function (index) {
                     obj.del();
@@ -194,8 +188,6 @@
                 });
             } else if (obj.event === 'edit') {
                 layer.alert('编辑行：<br>' + JSON.stringify(data))
-            } else if (obj.event === 'addcourse') {
-                addCourse(data.educationprogramid);
             }
         });
 
@@ -218,19 +210,39 @@
             }
         };
     });
-
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
-        //年选择器
-        laydate.render({
-            elem: '#publishyear'
-            ,type: 'year'
-        });
-    });
 </script>
 
 <script type="text/javascript" th:inline="javascript">
-    //添加专业培养方案
+    // 添加数据字典类型
+    function addType() {
+        //prompt层
+        layer.prompt({title: '输入专业名称', formType: 2}, function (msg, index) {
+            // layer.msg(msg);
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/majoradd',
+                data: {"majorname": msg},
+                success: function (result) {
+                    if (result == "1") {
+                        layer.msg("添加成功");
+                        //重新请求数据，刷新页面
+                        setTimeout(function () {
+                            window.location.href = "/admin/classes";
+                        }, 1000);
+                    } else {
+                        layer.msg("添加失败");
+                    }
+                    layer.close(index);
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+
+    //添加字典数据
     function adddata() {
         $("#addData").modal("show");
     }
@@ -242,14 +254,14 @@
         //数据校验
         $.ajax({
             type: 'POST',
-            url: '/admin/eduproadd',
+            url: '/admin/studentadd',
             data: formdata,
             success: function (result) {
                 if (result == "1") {
                     layer.msg("添加成功");
                     //重新请求数据，刷新页面
                     setTimeout(function () {
-                        window.location.href = "/admin/eduprogrameget";
+                        window.location.href = "/admin/classes";
                     }, 1000);
                 } else {
                     layer.msg("添加失败");
@@ -260,30 +272,6 @@
                 console.log(data.msg);
             },
         })
-    }
-
-    //课程体系中添加内容
-    function addCourse(educationprogramid) {
-        var url='/admin/coursetoedupro?educationprogramid='+educationprogramid + '';
-        //打开窗口
-        layer.open({
-            type: 2 //Page层类型
-            ,area: ['1000px', '700px']
-            ,title: '添加课程'
-            ,shade: 0.6 //遮罩透明度
-            ,fixed:false
-            ,maxmin: true //允许全屏最小化
-            ,anim: 5 //0-6的动画形式，-1不开启
-            ,content: url
-        });
-
-        // layer.open({
-        //     type: 2,
-        //     area: ['700px', '450px'],
-        //     fixed: false, //不固定
-        //     maxmin: true,
-        //     content: url
-        // });
     }
 
 
