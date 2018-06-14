@@ -58,8 +58,8 @@ public class CurriculumController {
      */
     @RequestMapping(value = "geteduprobymajor")
     @ResponseBody
-    public Map<String,String> getEduProByMajor(@RequestParam("majorid") String majorid){
-        List<education_program> eduList = educationProgramService.selectByMajorId(majorid);
+    public Map<String,String> getEduProByMajor(@RequestParam("id") String id){
+        List<education_program> eduList = educationProgramService.selectByMajorId(id);
         Map<String,String> eduMap = new HashMap<>();
         for (education_program item :
                 eduList) {

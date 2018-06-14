@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/lib/html5shiv.js"></script>
+    <script type="text/javascript" src="/lib/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/lib/Hui-iconfont/1.0.8/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/h-ui.admin/skin/default/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="/h-ui.admin/css/style.css"/>
+    <link rel="stylesheet" href="/lib/layer/2.4/skin/layer.css">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css">
+
+    <!--[if IE 6]>
+    <script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <title>数据字典</title>
+
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
+    <span class="c-gray en">&gt;</span>
+    课程管理
+    <span class="c-gray en">&gt;</span>
+    课程资源
+    <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+       href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
+</nav>
+<div class="page-container">
+    <div class="text-c"> 专业:
+        <div class="layui-input-inline">
+            <select id="selectType" th:name="majorid" class="select"
+                    style="width: 150px;height: 31px;">
+                <option value="">选择专业</option>
+                <option th:each="typelist,listStart:${typeList}"
+                        th:value="${typelist.getMajorid()}"
+                        th:text="${typelist.getMajorname() }"></option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select id="selectEduPro" name="quiz2" class="select"
+                    style="width: 150px;height: 31px;">
+                <option value="">选择课程体系</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select id="selectCourse" name="quiz3" class="select"
+                    style="width: 150px;height: 31px;">
+                <option value="">选择课程</option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <button class="btn btn-primary radius" id="addDic" onclick="" name=""><i
+                    class="Hui-iconfont">&#xe600;</i> 搜索
+            </button>
+        </div>
+    </div>
+</div>
+<div class="cl pd-5 bg-1 bk-gray mt-20">
+		<span class="l">
+		<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+		<a href="javascript:;" onclick="adddata()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加资源</a>
+		</span>
+</div>
+
+<table class="layui-hide" id="test" lay-filter="demo"></table>
+</div>
+<form id="courseadd">
+    <div id="addData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <div class="modal-header">
+                    <h3 class="modal-title">添加资源</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-border table-bordered table-hover">
+                        <tr>
+                            <td>资源名称</td>
+                            <td>
+                                <input type="text" id="name" name="name" class="input-text size-S"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>所属课程</td>
+                            <td>
+                                <div class="layui-input-inline">
+                                    <select id="selectMajor" class="select"
+                                            style="width: 150px;height: 31px;">
+                                        <option value="">选择专业</option>
+                                        <option th:each="typelist,listStart:${typeList}"
+                                                th:value="${typelist.getMajorid()}"
+                                                th:text="${typelist.getMajorname() }"></option>
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline">
+                                    <select id="selectEduProadd" name="" class="select"
+                                            style="width: 150px;height: 31px;">
+                                        <option value="">选择课程体系</option>
+                                    </select>
+                                </div>
+                                <div class="layui-input-inline">
+                                    <select id="selectCourseadd" name="courseid" class="select"
+                                            style="width: 150px;height: 31px;">
+                                        <option value="">选择课程</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>上传文件</td>
+                            <td>
+                                <span class="btn-upload form-group">
+                                  <input class="input-text upload-url radius" type="text" name="uploadfile" id="uploadfile" readonly><a
+                                        href="javascript:void();" class="btn btn-primary radius"><i class="iconfont">&#xe642;</i> 浏览文件</a>
+                                  <input type="file" multiple name="file" class="input-file">
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button onclick="addData()" class="btn btn-primary">确定</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/lib/laypage/1.2/laypage.js"></script>
+<script src="/lib/layui/layui.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+        $('#selectType').change(function () {
+            // changeMajor();
+            changeSelect('selectType','selectEduPro','/admin/geteduprobymajor','选择课程体系',true,"selectCourse");
+        });
+        $('#selectEduPro').change(function () {
+            // changeEduPro();
+            changeSelect('selectEduPro','selectCourse','/admin/getcoursebyedupro','选择课程',false,"");
+        });
+
+        $('#selectMajor').change(function () {
+            // changeMajor();
+            changeSelect('selectMajor','selectEduProadd','/admin/geteduprobymajor','选择课程体系',true,"selectCourseadd");
+        });
+        $('#selectEduProadd').change(function () {
+            // changeEduPro();
+            changeSelect('selectEduProadd','selectCourseadd','/admin/getcoursebyedupro','选择课程',false,"");
+        });
+    });
+
+    //三级联动封装
+    function changeSelect(objid,childid,url,selectName,topChange,next) {
+        var id = $("#"+objid).val();
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                "id": id
+            },
+            success: function (result) {
+                $("#"+childid).empty();
+                $('<option>'+selectName+'</option>').appendTo($("#"+childid));
+                for (var key in result) {
+                    // alert(key); //json对象的key
+                    // alert(result[key]); //json对象的值
+                    // 添加option
+                    $('<option value="' + key + '">' + result[key] + '</option>').appendTo($("#"+childid));
+                }
+                if (topChange) {
+                    changeSelect(childid,next,'/admin/getcoursebyedupro','选择课程',false);
+                }
+            },
+            error: function () {
+                $("#"+childid).empty();
+                $('<option>'+selectName+'</option>').appendTo($("#"+childid));
+            }
+        });
+    }
+</script>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    layui.use('table', function () {
+        var table = layui.table;
+        table.render({
+            id: 'resourceid'
+            , elem: '#test'
+            , url: '/admin/courseget'
+            , request: {
+                pageName: 'curr' //页码的参数名称，默认：page
+                , limitName: 'nums' //每页数据量的参数名，默认：limit
+            }
+            , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                //,curr: 5 //设定初始在第 5 页
+                , groups: 5 //只显示 1 个连续页码
+                , first: true //不显示首页
+                , last: true //不显示尾页
+            }
+            , cols: [[
+                /*<![CDATA[*/
+                {type: 'checkbox', fixed: 'left'}
+                , {field: 'name', title: '课程号', sort: true}
+                , {field: 'coursename', title: '课程名称', sort: true}
+                , {field: 'enname', title: '英文名称', sort: true}
+                , {field: 'coursecategoryname', title: '课程类别', sort: true}
+                , {field: 'score', title: '课程学分', sort: true}
+                , {field: 'chour', title: '周理论学时', sort: true}
+                , {field: 'lhour', title: '周实验学时', sort: true}
+                , {field: 'tchour', title: '理论总学时', sort: true}
+                , {field: 'tlhour', title: '实验总学时', sort: true}
+                , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
+                /*]]>*/
+            ]]
+            , initSort: {
+                field: 'id' //排序字段，对应 cols 设定的各字段名
+                , type: 'desc' //排序方式  asc: 升序、desc: 降序、null: 默认排序
+            }
+        });
+
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.courseid + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
+            }
+        });
+
+
+        var $ = layui.$, active = {
+            reload: function () {
+                var demoReload = $('#demoReload');
+
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        key: {
+                            id: demoReload.val()
+                        }
+                    }
+                });
+            }
+        };
+    });
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    //添加课程资源
+    function adddata() {
+        $("#addData").modal("show");
+    }
+
+    function addData() {
+
+        // var formdata = FormData($("#")[0]);
+        var formData = new FormData($("#courseadd")[0]);
+
+        //数据校验
+        $.ajax({
+            type: 'POST',
+            url: '/admin/resourceadd',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (result) {
+                if (result == "1") {
+                    layer.msg("添加成功");
+                    //重新请求数据，刷新页面
+                    setTimeout(function () {
+                        window.location.href = "/admin/resourse";
+                    }, 1000);
+                } else {
+                    layer.msg("添加失败");
+                }
+                layer.close(index);
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
+        })
+    }
+
+
+    /*数据字典-编辑*/
+    function system_data_edit(title, url, id, w, h) {
+        layer_show(title, url, w, h);
+    }
+
+    /*数据字典-删除*/
+    function system_data_del(obj, id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '',
+                dataType: 'json',
+                success: function (data) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {icon: 1, time: 1000});
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+</script>
+</body>
+</html>
