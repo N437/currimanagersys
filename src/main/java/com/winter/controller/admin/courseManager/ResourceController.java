@@ -1,11 +1,13 @@
 package com.winter.controller.admin.courseManager;
 
 import com.winter.model.*;
+import com.winter.model.modelUtil.ResWithCourse;
 import com.winter.services.CourseService;
 import com.winter.services.CurriculumService;
 import com.winter.services.MajorService;
 import com.winter.services.ResourceService;
 import com.winter.utils.FileUtil;
+import com.winter.utils.LayUItableResponse;
 import com.winter.utils.ResponseCode;
 import com.winter.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +76,32 @@ public class ResourceController {
         return retMap;
     }
 
+    /**
+     * 获取资源列表
+     * @param curr
+     * @param nums
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "resourceget")
+    public Map<String,Object> resourceGet(@RequestParam("curr") int curr, @RequestParam("nums") int nums){
+
+        int countNum = resourceService.selectCount();
+
+        List<resource> resourceList = resourceService.selectBypage(curr, nums);
+        //添加课程名称
+        List<ResWithCourse> retList = getResourceWithCourse(resourceList);
+
+        return LayUItableResponse.addData(0,"",countNum,retList);
+    }
+
+    /**
+     * 添加资源，上传文件
+     * @param model
+     * @param file
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "resourceadd")
     @ResponseBody
     public String addResource(@ModelAttribute resource model, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -143,4 +171,29 @@ public class ResourceController {
         return result;
     }
 
+    /**
+     * 获取资源以及课程名称
+     * @param list
+     * @return
+     */
+    private List<ResWithCourse> getResourceWithCourse(List<resource> list) {
+        List<ResWithCourse> retList = new ArrayList<>();
+        for (resource item :
+                list) {
+            ResWithCourse obj = new ResWithCourse();
+
+            String courseName = courseService.selectByPrimaryKey(item.getCourseid()).getCoursename();
+
+            obj.setCoursename(courseName);
+            obj.setCreatetime(item.getCreatetime());
+            obj.setResourceid(item.getResourceid());
+            obj.setResourceurl(item.getResourceurl());
+            obj.setCourseid(item.getCourseid());
+            obj.setName(item.getName());
+
+            retList.add(obj);
+        }
+
+        return retList;
+    }
 }

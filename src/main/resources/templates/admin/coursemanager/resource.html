@@ -200,7 +200,7 @@
 </script>
 
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看/下载</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
@@ -211,7 +211,7 @@
         table.render({
             id: 'resourceid'
             , elem: '#test'
-            , url: '/admin/courseget'
+            , url: '/admin/resourceget'
             , request: {
                 pageName: 'curr' //页码的参数名称，默认：page
                 , limitName: 'nums' //每页数据量的参数名，默认：limit
@@ -228,13 +228,6 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'name', title: '课程号', sort: true}
                 , {field: 'coursename', title: '课程名称', sort: true}
-                , {field: 'enname', title: '英文名称', sort: true}
-                , {field: 'coursecategoryname', title: '课程类别', sort: true}
-                , {field: 'score', title: '课程学分', sort: true}
-                , {field: 'chour', title: '周理论学时', sort: true}
-                , {field: 'lhour', title: '周实验学时', sort: true}
-                , {field: 'tchour', title: '理论总学时', sort: true}
-                , {field: 'tlhour', title: '实验总学时', sort: true}
                 , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
                 /*]]>*/
             ]]
