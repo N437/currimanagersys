@@ -73,7 +73,7 @@ public class ClassesController {
             model.setCreatetime(new Date());
             model.setMajorid(StringUtil.getUUID());
             model.setMajorname(majorname);
-
+            model.setMajorcode(getMajorCode());
             majorService.insert(model);
 
             result = ResponseCode.success;
@@ -123,5 +123,15 @@ public class ClassesController {
             resList.add(obj);
         }
         return resList;
+    }
+
+    /**
+     * 生成专业对应标识码
+     * @return
+     */
+    private String getMajorCode(){
+        int majorCount = majorService.selectCount();
+        String code = StringUtil.frontCompWithZore(majorCount,3);
+        return code;
     }
 }

@@ -66,25 +66,24 @@ public class ResourceController {
         //根据curriculumid从 curriculum 表中查询到所有的课程
         List<curriculum> currList = curriculumService.selectByEduProId(id);
         Map<String, String> retMap = new HashMap<>();
-
         for (curriculum item :
                 currList) {
             course model = courseService.selectByPrimaryKey(item.getCourseid());
             retMap.put(model.getCourseid(), model.getCoursename());
         }
-
         return retMap;
     }
 
     /**
      * 获取资源列表
+     *
      * @param curr
      * @param nums
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "resourceget")
-    public Map<String,Object> resourceGet(@RequestParam("curr") int curr, @RequestParam("nums") int nums){
+    public Map<String, Object> resourceGet(@RequestParam("curr") int curr, @RequestParam("nums") int nums) {
 
         int countNum = resourceService.selectCount();
 
@@ -92,11 +91,12 @@ public class ResourceController {
         //添加课程名称
         List<ResWithCourse> retList = getResourceWithCourse(resourceList);
 
-        return LayUItableResponse.addData(0,"",countNum,retList);
+        return LayUItableResponse.addData(0, "", countNum, retList);
     }
 
     /**
      * 添加资源，上传文件
+     *
      * @param model
      * @param file
      * @param request
@@ -109,7 +109,7 @@ public class ResourceController {
 
         String contentType = file.getContentType();
         String fileName = file.getOriginalFilename();
-        if (isFileRight(fileName)) {
+        if (FileUtil.isFileRight(fileName)) {
             String filePath = "";
             try {
                 filePath = ResourceUtils.getURL("static/userfile/tmp").getPath();
@@ -127,7 +127,7 @@ public class ResourceController {
             //写入数据库
             model.setResourceid(StringUtil.getUUID());
             model.setCreatetime(new Date());
-            model.setResourceurl(filePath + "/" +fileName);
+            model.setResourceurl(filePath + "/" + fileName);
 
             resourceService.insert(model);
             result = ResponseCode.success;
@@ -137,42 +137,8 @@ public class ResourceController {
     }
 
     /**
-     * 判断文件的类型
-     * @param fileName
-     * @return
-     */
-    private Boolean isFileRight(String fileName) {
-        Boolean result = false;
-
-        //数据存于数据字典中，此处直接省略
-        String[] includeUrls = new String[]{"png", "jpg", "gif"};
-
-        List<String> includefile = new ArrayList<>();
-
-        includefile.add("png");
-        includefile.add("jpg");
-        includefile.add("gif");
-        includefile.add("jpeg");
-
-//        String trim =fileName.replaceAll(" ","");
-
-        String[] uploadFile = fileName.split("\\.");
-
-        String name = "";
-        String ext = "";
-        if (uploadFile.length>1){
-            name = uploadFile[0];
-            ext = uploadFile[1];
-        }
-
-        if (includefile.contains(ext)) {
-            result = true;
-        }
-        return result;
-    }
-
-    /**
      * 获取资源以及课程名称
+     *
      * @param list
      * @return
      */

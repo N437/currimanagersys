@@ -5,6 +5,8 @@ import java.util.Date;
 public class major {
     private String majorid;
 
+    private String majorcode;
+
     private String majorname;
 
     private Date createtime;
@@ -15,6 +17,14 @@ public class major {
 
     public void setMajorid(String majorid) {
         this.majorid = majorid == null ? null : majorid.trim();
+    }
+
+    public String getMajorcode() {
+        return majorcode;
+    }
+
+    public void setMajorcode(String majorcode) {
+        this.majorcode = majorcode == null ? null : majorcode.trim();
     }
 
     public String getMajorname() {

@@ -49,14 +49,13 @@
     <div class="cl pd-5 bg-1 bk-gray mt-20">
 		<span class="l">
 		<a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
-		<a href="javascript:;" onclick="adddata()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加班级</a>
-		<a href="javascript:;" onclick="addType()" class="btn btn-secondary radius"><i class="Hui-iconfont">&#xe600;</i> 添加专业</a>
+		<a href="javascript:;" onclick="adddata()" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加学生</a>
 		</span>
     </div>
 
     <table class="layui-hide" id="test" lay-filter="demo"></table>
 </div>
-<form id="courseadd" enctype="multipart/form-data">
+<form id="courseadd">
     <div id="addData" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content radius">
@@ -69,13 +68,13 @@
                         <tr>
                             <td>学生姓名</td>
                             <td>
-                                <input type="text" id="classname" name="classname" class="input-text size-S"/>
+                                <input type="text" id="studentname" name="studentname" class="input-text size-S"/>
                             </td>
                         </tr>
                         <tr>
                             <td>性别</td>
                             <td>
-                                <select id="studentname" th:name="studentname" class="select" name="studentname"
+                                <select id="studentgender" th:name="studentgender" class="select" name="studentgender"
                                         style="width: 150px;height: 31px;">
                                     <option value="男">男</option>
                                     <option value="女">女</option>
@@ -85,7 +84,7 @@
                         <tr>
                             <td>专业</td>
                             <td>
-                                <select id="majorid" th:name="majorid" class="select" name="selectType"
+                                <select id="majorid" th:name="majorid" class="select" name="majorid"
                                         style="width: 150px;height: 31px;">
                                     <option>选择专业</option>
                                     <option th:each="typelist,listStart:${typeList}"
@@ -139,6 +138,44 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script type="text/javascript" th:inline="javascript">
+    $(function () {
+        $('#majorid').change(function () {
+            // changeMajor();
+            changeSelect('majorid','classid','/admin/getclassbymajor','选择班级',false,"");
+        });
+    });
+
+    //三级联动封装
+    function changeSelect(objid,childid,url,selectName,topChange,next) {
+        var id = $("#"+objid).val();
+        $.ajax({
+            type: "post",
+            url: url,
+            data: {
+                "id": id
+            },
+            success: function (result) {
+                $("#"+childid).empty();
+                $('<option>'+selectName+'</option>').appendTo($("#"+childid));
+                for (var key in result) {
+                    // alert(key); //json对象的key
+                    // alert(result[key]); //json对象的值
+                    // 添加option
+                    $('<option value="' + key + '">' + result[key] + '</option>').appendTo($("#"+childid));
+                }
+                if (topChange) {
+                    changeSelect(childid,next,'/admin/getcoursebyedupro','选择课程',false);
+                }
+            },
+            error: function () {
+                $("#"+childid).empty();
+                $('<option>'+selectName+'</option>').appendTo($("#"+childid));
+            }
+        });
+    }
 </script>
 
 <script type="text/javascript" th:inline="javascript">
@@ -249,16 +286,21 @@
 
     function addData() {
 
-        var formdata = $('#courseadd').serializeArray();
+        // var formdata = $('#courseadd').serializeArray();
+        var formdata = new FormData($("#courseadd")[0]);
 
         //数据校验
         $.ajax({
             type: 'POST',
             url: '/admin/studentadd',
             data: formdata,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function (result) {
-                if (result == "1") {
-                    layer.msg("添加成功");
+                if (result != "0") {
+                    layer.msg("添加成功,新建学生学号为"+result+"，初始登录密码为123456");
                     //重新请求数据，刷新页面
                     setTimeout(function () {
                         window.location.href = "/admin/classes";

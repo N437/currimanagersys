@@ -3,11 +3,12 @@
 <mapper namespace="com.winter.mapper.majorMapper" >
   <resultMap id="BaseResultMap" type="com.winter.model.major" >
     <id column="majorId" property="majorid" jdbcType="VARCHAR" />
+    <result column="majorCode" property="majorcode" jdbcType="VARCHAR" />
     <result column="majorName" property="majorname" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    majorId, majorName, createTime
+    majorId, majorCode, majorName, createTime
   </sql>
   <select id="select" parameterType="com.winter.model.major" resultType="com.winter.model.major">
     select <include refid="Base_Column_List" />
@@ -15,6 +16,9 @@
     <where>
       <if test="majorid != null" >
         and majorid = #{majorid,jdbcType=VARCHAR},
+      </if>
+      <if test="majorcode != null" >
+        and majorcode = #{majorcode,jdbcType=VARCHAR}
       </if>
       <if test="majorname != null" >
         and majorname = #{majorname,jdbcType=VARCHAR}
@@ -29,7 +33,7 @@
     from major
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from major
     where majorId = #{majorid,jdbcType=VARCHAR}
@@ -39,16 +43,19 @@
     where majorId = #{majorid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.winter.model.major" >
-    insert into major (majorId, majorName, createTime
-      )
-    values (#{majorid,jdbcType=VARCHAR}, #{majorname,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}
-      )
+    insert into major (majorId, majorCode, majorName,
+      createTime)
+    values (#{majorid,jdbcType=VARCHAR}, #{majorcode,jdbcType=VARCHAR}, #{majorname,jdbcType=VARCHAR},
+      #{createtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.winter.model.major" >
     insert into major
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="majorid != null" >
         majorId,
+      </if>
+      <if test="majorcode != null" >
+        majorCode,
       </if>
       <if test="majorname != null" >
         majorName,
@@ -61,6 +68,9 @@
       <if test="majorid != null" >
         #{majorid,jdbcType=VARCHAR},
       </if>
+      <if test="majorcode != null" >
+        #{majorcode,jdbcType=VARCHAR},
+      </if>
       <if test="majorname != null" >
         #{majorname,jdbcType=VARCHAR},
       </if>
@@ -72,6 +82,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.winter.model.major" >
     update major
     <set >
+      <if test="majorcode != null" >
+        majorCode = #{majorcode,jdbcType=VARCHAR},
+      </if>
       <if test="majorname != null" >
         majorName = #{majorname,jdbcType=VARCHAR},
       </if>
@@ -83,7 +96,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.winter.model.major" >
     update major
-    set majorName = #{majorname,jdbcType=VARCHAR},
+    set majorCode = #{majorcode,jdbcType=VARCHAR},
+      majorName = #{majorname,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP}
     where majorId = #{majorid,jdbcType=VARCHAR}
   </update>
