@@ -142,11 +142,11 @@
 
                 $.ajax({
                     type:'post',
-                    url:'/admin/addcoursetoedupro',
+                    url:'/admin/studentselectcourse',
                     data:{
                         "studentid":studentid,
                         "courseid":courseid,
-                        "semester":semeter
+                        "semesterid":semeter
                     },
                     success:function (result) {
                         if (result == "1") {

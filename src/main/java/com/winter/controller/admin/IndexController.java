@@ -36,7 +36,13 @@ public class IndexController {
             if (user != null) {
                 roleinfo userRole = roleInfoService.selectByPrimaryKey(user.getUserrole());
                 model.addAttribute("userName", userRole.getRolename());
-                result = "admin/index";
+                if (userRole.getRolename().equals("管理员")){
+                    return "admin/index";
+                } else if (userRole.getRolename().equals("教工")) {
+                    return "admin/index_tec";
+                } else if (userRole.getRolename().equals("学生")) {
+                    return "admin/index_stu";
+                }
             }
         }
         return result;
