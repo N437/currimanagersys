@@ -57,7 +57,7 @@ public class ClassStudentController {
         return "admin/coursemanager/coursestudent";
     }
 
-    @RequestMapping(value = "getcoursestudent")
+//    @RequestMapping(value = "getcoursestudent")
 //    public String getCourseStudent(@RequestParam("curr") int curr, @RequestParam("nums") int nums){
 //        //返回学生的列表
 //        List<class_student> csList = classStudentService.
