@@ -103,7 +103,7 @@ public class TeacherController {
             usermodel.setUserid(teacherCode);
             usermodel.setUserinfoid(StringUtil.getUUID());
             usermodel.setUserpwd("123456");
-            usermodel.setUserrole("c7f02d4b156b4aceb9e004361139bb1a");
+            usermodel.setUserrole("5c9ac4be42bc40cab5690496cfe3c161");
 
             userInfoService.insert(usermodel);
 

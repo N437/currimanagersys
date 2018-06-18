@@ -23,7 +23,7 @@
     <script type="text/javascript" src="/lib/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
-    <title>添加</title>
+    <title>数据字典</title>
 
 </head>
 <body>
@@ -31,39 +31,20 @@
     <span class="c-gray en">&gt;</span>
     课程管理
     <span class="c-gray en">&gt;</span>
-    <strong style="color: red" th:text="${userName}"></strong>
+    课程查看:<span th:text="${userName}"></span>
     <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
        href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a>
-    <input type="hidden" id="studentid" name="studentid" th:value="${studentid}" >
 </nav>
 <div class="page-container">
-    <div class="text-c"> 课程类别:
-        <select id="selectType" class="select" name="selectType" style="width: 150px;height: 31px;">
-            <option th:each="typelist,listStart:${typeList}" th:value="${typelist.getCoursecategoryid()}"
-                    th:text="${typelist.getCoursecategoryname() }"></option>
-        </select>
+    <div class="text-c">
+
         <!--<input type="text" class="input-text" id="" name="" style="width:150px">-->
-        <button class="btn btn-primary radius" id="addDic" onclick="" name=""><i
-                class="Hui-iconfont">&#xe600;</i> 搜索
-        </button>
-    </div>
-    <div class="cl pd-5 bg-1 bk-gray mt-20">
-        <a href="javascript:;" onclick="dataView()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 查看已选课程</a>
-		<span class="l">
-            <select id="semesterSelect" class="select" name="selectType" style="width: 150px;height: 31px;">
-                <option value="1">第一学期</option>
-                <option value="2">第二学期</option>
-                <option value="3">第三学期</option>
-                <option value="4">第四学期</option>
-                <option value="5">第五学期</option>
-                <option value="6">第六学期</option>
-                <option value="7">第七学期</option>
-                <option value="8">第八学期</option>
-            </select>
-		</span>
+        <!--<button class="btn btn-primary radius" id="addDic" onclick="" name=""><i-->
+                <!--class="Hui-iconfont">&#xe600;</i> 搜索-->
+        <!--</button>-->
     </div>
 
-    <table class="layui-hide" lay-data="{id:'testedit'}" id="test" lay-filter="demo"></table>
+    <table class="layui-hide" id="test" lay-filter="demo"></table>
 </div>
 
 <!--_footer 作为公共模版分离出去-->
@@ -82,22 +63,13 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
 </script>
 
-<script type="text/html" id="checkboxTpl">
-    <!-- 这里的 checked 的状态只是演示 -->
-    <input type="checkbox" name="lock" value="{{d.courseid}}" title="添加" lay-filter="lockDemo">
-</script>
-
-
 <script type="text/javascript" th:inline="javascript">
-    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-
     layui.use('table', function () {
-        var table = layui.table,form = layui.form;
-        var ret = /[1-8]/;
+        var table = layui.table;
         table.render({
             id: 'courseid'
             , elem: '#test'
-            , url: '/admin/courseclassget'
+            , url: '/admin/getselectedlist'
             , request: {
                 pageName: 'curr' //页码的参数名称，默认：page
                 , limitName: 'nums' //每页数据量的参数名，默认：limit
@@ -114,10 +86,13 @@
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'coursenum', title: '课程号', sort: true}
                 , {field: 'coursename', title: '课程名称', sort: true}
-                , {field: 'teachername', title: '教师', sort: true}
-                , {field: 'maxclasssize', title: '最大容量', sort: true}
+                , {field: 'enname', title: '英文名称', sort: true}
                 , {field: 'score', title: '课程学分', sort: true}
-                , {field: 'lock', title:'是否添加', width:110, templet: '#checkboxTpl', unresize: false}
+                , {field: 'chour', title: '周理论学时', sort: true}
+                , {field: 'lhour', title: '周实验学时', sort: true}
+                , {field: 'tchour', title: '理论总学时', sort: true}
+                , {field: 'tlhour', title: '实验总学时', sort: true}
+                , {fixed: 'right', align: 'center', toolbar: '#barDemo'}
                 /*]]>*/
             ]]
             , initSort: {
@@ -126,50 +101,20 @@
             }
         });
 
-        var degreeis=false;
-        var semeste = '';
-        //监听添加操作
-        form.on('checkbox(lockDemo)', function(obj){
-            // layer.msg(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+        table.on('tool(demo)', function (obj) {
             var data = obj.data;
-
-            var ele = $(obj.elem);
-            if (obj.elem.checked){
-                $('#courseidaddto').val();
-                //
-                var courseid = obj.value;
-                var studentid = $('#studentid').val();
-                var semeter = $('#semesterSelect').val();
-
-                $.ajax({
-                    type:'post',
-                    url:'/admin/studentselectcourse',
-                    data:{
-                        "studentid":studentid,
-                        "courseid":courseid,
-                        "semesterid":semeter
-                    },
-                    success:function (result) {
-                        if (result == "1") {
-                            layer.msg("添加成功");
-                            //重新请求数据，刷新页面
-                            setTimeout(function () {
-                                // window.location.href = "/admin/courseindex";
-                            }, 1000);
-                        } else {
-                            layer.msg("添加失败");
-                            layui.use('table', function () {
-                                var table = layui.table,form = layui.form;
-                                var s = $('#hideObj').val();
-                                $(obj.othis).click();
-
-                            });
-                        }
-                        layer.close(index);
-                    }
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.courseid + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
                 });
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
             }
         });
+
 
         var $ = layui.$, active = {
             reload: function () {
@@ -191,21 +136,5 @@
     });
 </script>
 
-<script type="text/javascript">
-    function dataView() {
-        //将本人的学号传入
-        var studentid = $('#studentid').val();
-        var url = '/admin/getselected?id='+studentid;
-        //iframe层-父子操作
-
-        layer.open({
-            type: 2,
-            area: ['700px', '450px'],
-            fixed: false, //不固定
-            maxmin: true,
-            content:url
-        });
-    }
-</script>
 </body>
 </html>
